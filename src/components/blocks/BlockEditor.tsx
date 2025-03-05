@@ -737,7 +737,7 @@ export function BlockEditor({ block, onUpdate }: BlockEditorProps) {
                       type="text"
                       value={block.settings?.overlayColor || 'rgba(0,0,0,0.3)'}
                       onChange={(e) => handleContentChange('settings.overlayColor', e.target.value)}
-                 className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md"
                       placeholder="rgba(0,0,0,0.3)"
                     />
                   </div>
@@ -840,7 +840,7 @@ export function BlockEditor({ block, onUpdate }: BlockEditorProps) {
                           value={slide.button_text}
                           onChange={(e) => {
                             const newSlides = [...block.slides];
-                            newSlides[index].button_text = e.target.value;
+                                                        newSlides[index].button_text = e.target.value;
                             handleContentChange('slides', newSlides);
                           }}
                           className="w-full px-3 py-2 border border-gray-300 rounded-md"
@@ -1074,6 +1074,940 @@ export function BlockEditor({ block, onUpdate }: BlockEditorProps) {
                   </div>
                 </div>
               ))}
+            </div>
+          </div>
+        );
+
+      case 'richtext':
+        return (
+          <div className="space-y-4">
+            <div>
+              <h3 className="text-sm font-medium text-gray-700 mb-2">Conteúdo</h3>
+              <div className="space-y-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Título
+                  </label>
+                  <input
+                    type="text"
+                    value={block.content?.title || ''}
+                    onChange={(e) => handleContentChange('content.title', e.target.value)}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Subtítulo
+                  </label>
+                  <input
+                    type="text"
+                    value={block.content?.subtitle || ''}
+                    onChange={(e) => handleContentChange('content.subtitle', e.target.value)}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Texto
+                  </label>
+                  <textarea
+                    value={block.content?.text || ''}
+                    onChange={(e) => handleContentChange('content.text', e.target.value)}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                    rows={5}
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div className="border-t border-gray-200 pt-4">
+              <h3 className="text-sm font-medium text-gray-700 mb-2">Configurações</h3>
+              <div className="space-y-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Largura Máxima
+                  </label>
+                  <input
+                    type="text"
+                    value={block.settings?.maxWidth || '800px'}
+                    onChange={(e) => handleContentChange('settings.maxWidth', e.target.value)}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                    placeholder="800px"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Alinhamento
+                  </label>
+                  <select
+                    value={block.settings?.alignment || 'left'}
+                    onChange={(e) => handleContentChange('settings.alignment', e.target.value)}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                  >
+                    <option value="left">Esquerda</option>
+                    <option value="center">Centro</option>
+                    <option value="right">Direita</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Preenchimento
+                  </label>
+                  <input
+                    type="text"
+                    value={block.settings?.padding || '2rem'}
+                    onChange={(e) => handleContentChange('settings.padding', e.target.value)}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                    placeholder="2rem"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        );
+
+      case 'columns':
+        return (
+          <div className="space-y-4">
+            <div>
+              <h3 className="text-sm font-medium text-gray-700 mb-2">Configurações</h3>
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Colunas
+                  </label>
+                  <select
+                    value={block.settings?.columns || 2}
+                    onChange={(e) => handleContentChange('settings.columns', parseInt(e.target.value))}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                  >
+                    <option value="2">2 Colunas</option>
+                    <option value="3">3 Colunas</option>
+                    <option value="4">4 Colunas</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Espaçamento
+                  </label>
+                  <input
+                    type="text"
+                    value={block.settings?.gap || '2rem'}
+                    onChange={(e) => handleContentChange('settings.gap', e.target.value)}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                    placeholder="2rem"
+                  />
+                </div>
+              </div>
+              <div className="mt-4">
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Alinhamento
+                </label>
+                <select
+                  value={block.settings?.alignment || 'stretch'}
+                  onChange={(e) => handleContentChange('settings.alignment', e.target.value)}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                >
+                  <option value="stretch">Esticar</option>
+                  <option value="start">Início</option>
+                  <option value="center">Centro</option>
+                  <option value="end">Fim</option>
+                </select>
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Preenchimento
+                </label>
+                <input
+                  type="text"
+                  value={block.settings?.padding || '2rem'}
+                  onChange={(e) => handleContentChange('settings.padding', e.target.value)}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                  placeholder="2rem"
+                />
+              </div>
+            </div>
+
+            <div className="border-t border-gray-200 pt-4">
+              <div className="flex justify-between items-center mb-4">
+                <h3 className="text-sm font-medium text-gray-700">Colunas</h3>
+                <button
+                  onClick={() => {
+                    const newItems = [...(block.items || [])];
+                    newItems.push({
+                      title: 'Nova Coluna',
+                      content: 'Conteúdo da coluna'
+                    });
+                    handleContentChange('items', newItems);
+                  }}
+                  className="px-3 py-1 text-sm bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                >
+                  Adicionar Coluna
+                </button>
+              </div>
+
+              {(block.items || []).map((item: any, index: number) => (
+                <div
+                  key={index}
+                  className="mb-4 p-4 bg-gray-50 rounded-lg"
+                  draggable
+                  onDragStart={(e) => handleDragStart(e, index)}
+                  onDragEnd={handleDragEnd}
+                  onDragOver={(e) => handleDragOver(e, index)}
+                  ref={(el) => (blockRefs.current[index] = el)}
+                >
+                  <div className="grid gap-4">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        Título
+                      </label>
+                      <input
+                        type="text"
+                        value={item.title}
+                        onChange={(e) => {
+                          const newItems = [...block.items];
+                          newItems[index].title = e.target.value;
+                          handleContentChange('items', newItems);
+                        }}
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        Conteúdo
+                      </label>
+                      <textarea
+                        value={item.content}
+                        onChange={(e) => {
+                          const newItems = [...block.items];
+                          newItems[index].content = e.target.value;
+                          handleContentChange('items', newItems);
+                        }}
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                        rows={4}
+                      />
+                    </div>
+                  </div>
+
+                  <div className="mt-4 flex justify-end">
+                    <button
+                      onClick={() => {
+                        const newItems = [...block.items];
+                        newItems.splice(index, 1);
+                        handleContentChange('items', newItems);
+                      }}
+                      className="px-3 py-1 text-sm text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                    >
+                      Remover
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        );
+
+      case 'footer':
+        return (
+          <div className="space-y-4">
+            <div>
+              <h3 className="text-sm font-medium text-gray-700 mb-2">Configurações</h3>
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Cor de Fundo
+                  </label>
+                  <input
+                    type="text"
+                    value={block.settings?.backgroundColor || 'gray-900'}
+                    onChange={(e) => handleContentChange('settings.backgroundColor', e.target.value)}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                    placeholder="gray-900 ou #111827"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Cor do Texto
+                  </label>
+                  <input
+                    type="text"
+                    value={block.settings?.textColor || 'gray-100'}
+                    onChange={(e) => handleContentChange('settings.textColor', e.target.value)}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                    placeholder="gray-100 ou #f3f4f6"
+                  />
+                </div>
+              </div>
+              <div className="mt-4">
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Preenchimento
+                </label>
+                <input
+                  type="text"
+                  value={block.settings?.padding || '4rem'}
+                  onChange={(e) => handleContentChange('settings.padding', e.target.value)}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                  placeholder="4rem"
+                />
+              </div>
+              <div className="mt-4">
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Colunas
+                </label>
+                <select
+                  value={block.settings?.columns || 4}
+                  onChange={(e) => handleContentChange('settings.columns', parseInt(e.target.value))}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                >
+                  <option value="1">1 Coluna</option>
+                  <option value="2">2 Colunas</option>
+                  <option value="3">3 Colunas</option>
+                  <option value="4">4 Colunas</option>
+                </select>
+              </div>
+            </div>
+
+            <div className="border-t border-gray-200 pt-4">
+              <h3 className="text-sm font-medium text-gray-700 mb-2">Conteúdo</h3>
+              <div className="space-y-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Texto do Logo
+                  </label>
+                  <input
+                    type="text"
+                    value={block.content?.logo?.text || ''}
+                    onChange={(e) => handleContentChange('content.logo.text', e.target.value)}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Descrição
+                  </label>
+                  <textarea
+                    value={block.content?.description || ''}
+                    onChange={(e) => handleContentChange('content.description', e.target.value)}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                    rows={3}
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Copyright
+                  </label>
+                  <input
+                    type="text"
+                    value={block.content?.copyright || ''}
+                    onChange={(e) => handleContentChange('content.copyright', e.target.value)}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        );
+
+      case 'youtube':
+        return (
+          <div className="space-y-4">
+            <div>
+              <h3 className="text-sm font-medium text-gray-700 mb-2">Configurações</h3>
+              <div className="space-y-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    ID do Vídeo
+                  </label>
+                  <input
+                    type="text"
+                    value={block.content?.videoId || ''}
+                    onChange={(e) => handleContentChange('content.videoId', e.target.value)}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Título
+                  </label>
+                  <input
+                    type="text"
+                    value={block.content?.title || ''}
+                    onChange={(e) => handleContentChange('content.title', e.target.value)}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Descrição
+                  </label>
+                  <textarea
+                    value={block.content?.description || ''}
+                    onChange={(e) => handleContentChange('content.description', e.target.value)}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                    rows={3}
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div className="border-t border-gray-200 pt-4">
+              <h3 className="text-sm font-medium text-gray-700 mb-2">Aparência</h3>
+              <div className="space-y-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Largura Máxima
+                  </label>
+                  <input
+                    type="text"
+                    value={block.settings?.maxWidth || '800px'}
+                    onChange={(e) => handleContentChange('settings.maxWidth', e.target.value)}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                    placeholder="800px"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Proporção
+                  </label>
+                  <select
+                    value={block.settings?.aspectRatio || '16:9'}
+                    onChange={(e) => handleContentChange('settings.aspectRatio', e.target.value)}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                  >
+                    <option value="16:9">16:9</option>
+                    <option value="4:3">4:3</option>
+                    <option value="1:1">1:1</option>
+                  </select>
+                </div>
+                <div className="flex items-center">
+                  <input
+                    type="checkbox"
+                    checked={block.settings?.showControls || true}
+                    onChange={(e) => handleContentChange('settings.showControls', e.target.checked)}
+                    className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                  />
+                  <label className="ml-2 block text-sm text-gray-900">
+                    Mostrar Controles
+                  </label>
+                </div>
+                <div className="flex items-center">
+                  <input
+                    type="checkbox"
+                    checked={block.settings?.autoplay || false}
+                    onChange={(e) => handleContentChange('settings.autoplay', e.target.checked)}
+                    className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                  />
+                  <label className="ml-2 block text-sm text-gray-900">
+                    Reprodução Automática
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+        );
+
+      case 'divider':
+        return (
+          <div className="space-y-4">
+            <div>
+              <h3 className="text-sm font-medium text-gray-700 mb-2">Configurações</h3>
+              <div className="space-y-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Estilo
+                  </label>
+                  <select
+                    value={block.settings?.style || 'solid'}
+                    onChange={(e) => handleContentChange('settings.style', e.target.value)}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                  >
+                    <option value="solid">Sólido</option>
+                    <option value="dashed">Tracejado</option>
+                    <option value="dotted">Pontilhado</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Cor
+                  </label>
+                  <input
+                    type="text"
+                    value={block.settings?.color || 'gray-200'}
+                    onChange={(e) => handleContentChange('settings.color', e.target.value)}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                    placeholder="gray-200 ou #e5e7eb"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Largura
+                  </label>
+                  <input
+                    type="text"
+                    value={block.settings?.width || '100%'}
+                    onChange={(e) => handleContentChange('settings.width', e.target.value)}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                    placeholder="100%"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Altura
+                  </label>
+                  <input
+                    type="text"
+                    value={block.settings?.height || '1px'}
+                    onChange={(e) => handleContentChange('settings.height', e.target.value)}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                    placeholder="1px"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Margem
+                  </label>
+                  <input
+                    type="text"
+                    value={block.settings?.margin || '2rem'}
+                    onChange={(e) => handleContentChange('settings.margin', e.target.value)}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                    placeholder="2rem"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        );
+
+      case 'icons':
+        return (
+          <div className="space-y-4">
+            <div>
+              <h3 className="text-sm font-medium text-gray-700 mb-2">Configurações</h3>
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Tamanho
+                  </label>
+                  <input
+                    type="number"
+                    value={block.settings?.size || 48}
+                    onChange={(e) => handleContentChange('settings.size', parseInt(e.target.value))}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                    placeholder="48"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Cor
+                  </label>
+                  <input
+                    type="text"
+                    value={block.settings?.color || 'blue-600'}
+                    onChange={(e) => handleContentChange('settings.color', e.target.value)}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                    placeholder="blue-600 ou #2563eb"
+                  />
+                </div>
+              </div>
+              <div className="mt-4">
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Layout
+                </label>
+                <select
+                  value={block.settings?.layout || 'horizontal'}
+                  onChange={(e) => handleContentChange('settings.layout', e.target.value)}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                >
+                  <option value="horizontal">Horizontal</option>
+                  <option value="vertical">Vertical</option>
+                </select>
+              </div>
+              <div className="mt-4">
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Espaçamento
+                </label>
+                <input
+                  type="text"
+                  value={block.settings?.spacing || '2rem'}
+                  onChange={(e) => handleContentChange('settings.spacing', e.target.value)}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                  placeholder="2rem"
+                />
+              </div>
+              <div className="mt-4">
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Alinhamento
+                </label>
+                <select
+                  value={block.settings?.alignment || 'center'}
+                  onChange={(e) => handleContentChange('settings.alignment', e.target.value)}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                >
+                  <option value="left">Esquerda</option>
+                  <option value="center">Centro</option>
+                  <option value="right">Direita</option>
+                </select>
+              </div>
+            </div>
+
+            <div className="border-t border-gray-200 pt-4">
+              <div className="flex justify-between items-center mb-4">
+                <h3 className="text-sm font-medium text-gray-700">Ícones</h3>
+                <button
+                  onClick={() => {
+                    const newItems = [...(block.items || [])];
+                    newItems.push({
+                      icon: 'Star',
+                      label: 'Novo Ícone'
+                    });
+                    handleContentChange('items', newItems);
+                  }}
+                  className="px-3 py-1 text-sm bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                >
+                  Adicionar Ícone
+                </button>
+              </div>
+
+              {(block.items || []).map((item: any, index: number) => (
+                <div
+                  key={index}
+                  className="mb-4 p-4 bg-gray-50 rounded-lg"
+                  draggable
+                  onDragStart={(e) => handleDragStart(e, index)}
+                  onDragEnd={handleDragEnd}
+                  onDragOver={(e) => handleDragOver(e, index)}
+                  ref={(el) => (blockRefs.current[index] = el)}
+                >
+                  <div className="grid gap-4">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        Ícone
+                      </label>
+                      <input
+                        type="text"
+                        value={item.icon}
+                        onChange={(e) => {
+                          const newItems = [...block.items];
+                          newItems[index].icon = e.target.value;
+                          handleContentChange('items', newItems);
+                        }}
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        Rótulo
+                      </label>
+                      <input
+                        type="text"
+                        value={item.label}
+                        onChange={(e) => {
+                          const newItems = [...block.items];
+                          newItems[index].label = e.target.value;
+                          handleContentChange('items', newItems);
+                        }}
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="mt-4 flex justify-end">
+                    <button
+                      onClick={() => {
+                        const newItems = [...block.items];
+                        newItems.splice(index, 1);
+                        handleContentChange('items', newItems);
+                      }}
+                      className="px-3 py-1 text-sm text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                    >
+                      Remover
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        );
+
+      case 'buttons':
+        return (
+          <div className="space-y-4">
+            <div>
+              <h3 className="text-sm font-medium text-gray-700 mb-2">Configurações</h3>
+              <div className="space-y-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Layout
+                  </label>
+                  <select
+                    value={block.settings?.layout || 'horizontal'}
+                    onChange={(e) => handleContentChange('settings.layout', e.target.value)}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                  >
+                    <option value="horizontal">Horizontal</option>
+                    <option value="vertical">Vertical</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Espaçamento
+                  </label>
+                  <input
+                    type="text"
+                    value={block.settings?.spacing || '1rem'}
+                    onChange={(e) => handleContentChange('settings.spacing', e.target.value)}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                    placeholder="1rem"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Alinhamento
+                  </label>
+                  <select
+                    value={block.settings?.alignment || 'center'}
+                    onChange={(e) => handleContentChange('settings.alignment', e.target.value)}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                  >
+                    <option value="left">Esquerda</option>
+                    <option value="center">Centro</option>
+                    <option value="right">Direita</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div className="border-t border-gray-200 pt-4">
+              <div className="flex justify-between items-center mb-4">
+                <h3 className="text-sm font-medium text-gray-700">Botões</h3>
+                <button
+                  onClick={() => {
+                    const newItems = [...(block.items || [])];
+                    newItems.push({
+                      text: 'Novo Botão',
+                      url: '#',
+                      style: 'primary',
+                      icon: 'ArrowRight',
+                      iconPosition: 'right'
+                    });
+                    handleContentChange('items', newItems);
+                  }}
+                  className="px-3 py-1 text-sm bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                >
+                  Adicionar Botão
+                </button>
+              </div>
+
+              {(block.items || []).map((item: any, index: number) => (
+                <div
+                  key={index}
+                  className="mb-4 p-4 bg-gray-50 rounded-lg"
+                  draggable
+                  onDragStart={(e) => handleDragStart(e, index)}
+                  onDragEnd={handleDragEnd}
+                  onDragOver={(e) => handleDragOver(e, index)}
+                  ref={(el) => (blockRefs.current[index] = el)}
+                >
+                  <div className="grid gap-4">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        Texto
+                      </label>
+                      <input
+                        type="text"
+                        value={item.text}
+                        onChange={(e) => {
+                          const newItems = [...block.items];
+                          newItems[index].text = e.target.value;
+                          handleContentChange('items', newItems);
+                        }}
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        URL
+                      </label>
+                      <input
+                        type="text"
+                        value={item.url}
+                        onChange={(e) => {
+                          const newItems = [...block.items];
+                          newItems[index].url = e.target.value;
+                          handleContentChange('items', newItems);
+                        }}
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                      />
+                    </div>
+                    <div className="grid grid-cols-2 gap-4">
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">
+                          Estilo
+                        </label>
+                        <select
+                          value={item.style}
+                          onChange={(e) => {
+                            const newItems = [...block.items];
+                            newItems[index].style = e.target.value;
+                            handleContentChange('items', newItems);
+                          }}
+                          className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                        >
+                          <option value="primary">Primário</option>
+                          <option value="secondary">Secundário</option>
+                        </select>
+                      </div>
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">
+                          Ícone
+                        </label>
+                        <input
+                          type="text"
+                          value={item.icon}
+                          onChange={(e) => {
+                            const newItems = [...block.items];
+                            newItems[index].icon = e.target.value;
+                            handleContentChange('items', newItems);
+                          }}
+                          className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                        />
+                      </div>
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        Posição do Ícone
+                      </label>
+                      <select
+                        value={item.iconPosition}
+                        onChange={(e) => {
+                          const newItems = [...block.items];
+                          newItems[index].iconPosition = e.target.value;
+                          handleContentChange('items', newItems);
+                        }}
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                      >
+                        <option value="left">Esquerda</option>
+                        <option value="right">Direita</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div className="mt-4 flex justify-end">
+                    <button
+                      onClick={() => {
+                        const newItems = [...block.items];
+                        newItems.splice(index, 1);
+                        handleContentChange('items', newItems);
+                      }}
+                      className="px-3 py-1 text-sm text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                    >
+                      Remover
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        );
+
+      case 'googlemap':
+        return (
+          <div className="space-y-4">
+            <div>
+              <h3 className="text-sm font-medium text-gray-700 mb-2">Configurações</h3>
+              <div className="space-y-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Altura
+                  </label>
+                  <input
+                    type="text"
+                    value={block.settings?.height || '400px'}
+                    onChange={(e) => handleContentChange('settings.height', e.target.value)}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                    placeholder="400px"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Zoom
+                  </label>
+                  <input
+                    type="number"
+                    value={block.settings?.zoom || 15}
+                    onChange={(e) => handleContentChange('settings.zoom', parseInt(e.target.value))}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                    placeholder="15"
+                  />
+                </div>
+                <div className="flex items-center">
+                  <input
+                    type="checkbox"
+                    checked={block.settings?.showControls || true}
+                    onChange={(e) => handleContentChange('settings.showControls', e.target.checked)}
+                    className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                  />
+                  <label className="ml-2 block text-sm text-gray-900">
+                    Mostrar Controles
+                  </label>
+                </div>
+                <div className="flex items-center">
+                  <input
+                    type="checkbox"
+                    checked={block.settings?.allowFullscreen || true}
+                    onChange={(e) => handleContentChange('settings.allowFullscreen', e.target.checked)}
+                    className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                  />
+                  <label className="ml-2 block text-sm text-gray-900">
+                    Permitir Tela Cheia
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <div className="border-t border-gray-200 pt-4">
+              <h3 className="text-sm font-medium text-gray-700 mb-2">Conteúdo</h3>
+              <div className="space-y-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Endereço
+                  </label>
+                  <input
+                    type="text"
+                    value={block.content?.address || ''}
+                    onChange={(e) => handleContentChange('content.address', e.target.value)}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                    placeholder="Av. Paulista, 1000 - São Paulo, SP"
+                  />
+                </div>
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      Latitude
+                    </label>
+                    <input
+                      type="number"
+                      value={block.content?.lat || ''}
+                      onChange={(e) => handleContentChange('content.lat', parseFloat(e.target.value))}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                      placeholder="-23.5505"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      Longitude
+                    </label>
+                    <input
+                      type="number"
+                      value={block.content?.lng || ''}
+                      onChange={(e) => handleContentChange('content.lng', parseFloat(e.target.value))}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                      placeholder="-46.6333"
+                    />
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         );

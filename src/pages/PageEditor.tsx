@@ -295,7 +295,7 @@ export function PageEditor() {
                           <Trash2 size={16} />
                         </button>
                       </div>
-                      <BlockRenderer block={block} siteId={siteId || ''} />
+                      <BlockRenderer block={block} siteId={siteId || ''} isEditing={true} />
                     </div>
                   ))}
                 </div>
@@ -318,11 +318,11 @@ export function PageEditor() {
       {/* Modal de Blocos */}
       {showBlocksModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-          <div className="bg-white rounded-lg shadow-xl max-w-4xl w-full max-h-[80vh] overflow-hidden">
+          <div className="bg-white rounded-lg shadow-xl max-w-4xl w-full max-h-[80vh] overflow-hidden flex flex-col">
             <div className="p-6 border-b border-gray-100">
               <h3 className="text-lg font-semibold text-gray-900">Adicionar Bloco</h3>
             </div>
-            <div className="p-6 overflow-auto">
+            <div className="p-6 overflow-y-auto">
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {availableBlocks.map((block) => (
                   <div

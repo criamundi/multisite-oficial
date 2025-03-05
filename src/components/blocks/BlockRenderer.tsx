@@ -17,9 +17,10 @@ import { GoogleMapBlock } from './GoogleMapBlock';
 interface BlockRendererProps {
   block: any;
   siteId: string;
+  isEditing?: boolean;
 }
 
-export function BlockRenderer({ block, siteId }: BlockRendererProps) {
+export function BlockRenderer({ block, siteId, isEditing }: BlockRendererProps) {
   if (!block || !block.type) {
     return (
       <div className="p-4 bg-red-50 text-red-600 rounded-lg">
@@ -40,7 +41,13 @@ export function BlockRenderer({ block, siteId }: BlockRendererProps) {
     case 'slide':
       return <SlideBlock settings={block.settings} slides={block.slides} />;
     case 'menu':
-      return <MenuBlock settings={block.settings} items={block.items} />;
+      return isEditing ? (
+        <div className="bg-gray-200 text-gray-600 text-center py-4">
+          Menu de Navegação
+        </div>
+      ) : (
+        <MenuBlock settings={block.settings} items={block.items} siteId={siteId} />
+      );
     case 'richtext':
       return <RichTextBlock settings={block.settings} content={block.content} />;
     case 'columns':
@@ -58,6 +65,7 @@ export function BlockRenderer({ block, siteId }: BlockRendererProps) {
     case 'googlemap':
       return <GoogleMapBlock settings={block.settings} content={block.content} />;
     default:
+      console.log(`Tipo de bloco não suportado: ${block.type}`);
       return (
         <div className="p-4 bg-red-50 text-red-600 rounded-lg">
           Bloco não suportado: {block.type}

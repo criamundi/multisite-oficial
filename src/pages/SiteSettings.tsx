@@ -113,9 +113,12 @@ export function SiteSettings() {
     let current: any = newSettings;
     for (let i = 0; i < pathParts.length - 1; i++) {
       current = current[pathParts[i]];
+      if (!current) {
+        current = {};
+      }
     }
     current[pathParts[pathParts.length - 1]] = value;
-
+    
     setSite({ ...site, settings: newSettings });
   };
 

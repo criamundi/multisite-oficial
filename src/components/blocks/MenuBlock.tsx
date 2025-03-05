@@ -109,7 +109,7 @@ export function MenuBlock({ settings, items: defaultItems, siteId }: MenuBlockPr
   };
 
   const mobileMenuStyle = {
-    position: 'fixed' as const,
+    position: 'fixed' as 'fixed',
     top: 0,
     left: 0,
     width: '100%',
